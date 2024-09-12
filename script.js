@@ -49,3 +49,18 @@ document.querySelectorAll(".solde").forEach(element => {
         });
     });
 });
+
+function positionJoueurs() {
+    const players = document.querySelectorAll('.joueur'); // Sélectionne tous les éléments avec la classe 'joueur'
+    const totalPlayers = players.length; // Compte le nombre total de joueurs
+    const incrementAngle = 360 / totalPlayers; // Calcule l'angle entre chaque joueur
+    const rayonCercle = window.innerHeight < window.innerWidth ? "30vh" : "30vw";
+
+    players.forEach((player, index) => {
+        const angle = incrementAngle * index; // Calcule l'angle pour chaque joueur
+        player.style.transform = `rotate(${angle - 90}deg) translate(${rayonCercle}) rotate(${-angle + 90}deg)`; // Applique les transformations CSS
+    });
+}
+
+// Exemple d'utilisation pour recalculer la position
+positionJoueurs();

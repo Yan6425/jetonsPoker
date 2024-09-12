@@ -71,14 +71,14 @@ body {
 }
 
 /* Positionnement des cartes en cercle */
-#joueur1 { transform: rotate(0deg) translate(30vw) rotate(0deg); }
-#joueur2 { transform: rotate(45deg) translate(30vw) rotate(-45deg); }
-#joueur3 { transform: rotate(90deg) translate(30vw) rotate(-90deg); }
-#joueur4 { transform: rotate(135deg) translate(30vw) rotate(-135deg); }
-#joueur5 { transform: rotate(180deg) translate(30vw) rotate(-180deg); }
-#joueur6 { transform: rotate(225deg) translate(30vw) rotate(-225deg); }
-#joueur7 { transform: rotate(270deg) translate(30vw) rotate(-270deg); }
-#joueur8 { transform: rotate(315deg) translate(30vw) rotate(-315deg); }
+/* #joueur1 { transform: rotate(-90deg) translate(30vw) rotate(90deg); }
+#joueur2 { transform: rotate(-45deg) translate(30vw) rotate(45deg); }
+#joueur3 { transform: rotate(0deg) translate(30vw) rotate(0deg); }
+#joueur4 { transform: rotate(45deg) translate(30vw) rotate(-45deg); }
+#joueur5 { transform: rotate(90deg) translate(30vw) rotate(-90deg); }
+#joueur6 { transform: rotate(135deg) translate(30vw) rotate(-135deg); }
+#joueur7 { transform: rotate(180deg) translate(30vw) rotate(-180deg); }
+#joueur8 { transform: rotate(225deg) translate(30vw) rotate(-225deg); } */
 
 .nom {
     height: 60%;
@@ -106,14 +106,14 @@ input {
     }
     
     /* Positionnement des cartes en cercle */
-    #joueur1 { transform: rotate(0deg) translate(30vh) rotate(0deg); }
+    /* #joueur1 { transform: rotate(0deg) translate(30vh) rotate(0deg); }
     #joueur2 { transform: rotate(45deg) translate(30vh) rotate(-45deg); }
     #joueur3 { transform: rotate(90deg) translate(30vh) rotate(-90deg); }
     #joueur4 { transform: rotate(135deg) translate(30vh) rotate(-135deg); }
     #joueur5 { transform: rotate(180deg) translate(30vh) rotate(-180deg); }
     #joueur6 { transform: rotate(225deg) translate(30vh) rotate(-225deg); }
     #joueur7 { transform: rotate(270deg) translate(30vh) rotate(-270deg); }
-    #joueur8 { transform: rotate(315deg) translate(30vh) rotate(-315deg); }
+    #joueur8 { transform: rotate(315deg) translate(30vh) rotate(-315deg); } */
 
     input {
         width: 14vh;
