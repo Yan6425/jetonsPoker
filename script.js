@@ -50,6 +50,32 @@ document.querySelectorAll(".solde").forEach(element => {
     });
 });
 
+let nbJoueurs = 8;
+
+function ajouterJoueur() {
+    if (nbJoueurs < 10){
+        nbJoueurs = nbJoueurs + 1;
+        const cercle = document.getElementById("cercle");
+        const joueur = document.createElement("div");
+        joueur.className = "joueur";
+        joueur.id = `Joueur ${nbJoueurs}`;
+        const nom = document.createElement("div");
+        nom.textContent = joueur.id;
+        const solde = document.createElement("div");
+        solde.textContent = "500"
+        joueur.appendChild(nom);
+        joueur.appendChild(solde);
+        cercle.appendChild(joueur);
+        positionJoueurs();
+    }
+}
+
+// function enleverJoueur() {
+//     if (nbJoueurs > 3){
+
+//     }
+// }
+
 function positionJoueurs() {
     const players = document.querySelectorAll('.joueur'); // Sélectionne tous les éléments avec la classe 'joueur'
     const totalPlayers = players.length; // Compte le nombre total de joueurs
@@ -62,5 +88,5 @@ function positionJoueurs() {
     });
 }
 
-// Exemple d'utilisation pour recalculer la position
+//position des joueurs
 positionJoueurs();
