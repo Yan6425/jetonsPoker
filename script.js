@@ -45,7 +45,6 @@ function modifierSolde() {
         else {
             this.textContent = input.value; // Utilise `this` pour l'élément actuel
         }
-        
     });
 
     // Option de sauvegarde du texte avec la touche "Enter"
@@ -92,8 +91,6 @@ function toggleModeSuppression() {
     button.style.backgroundColor = modeSuppression ? "red" : "white";
 }
 
-// Ajoute un écouteur d'événement au bouton pour activer/désactiver le mode suppression
-document.getElementById('enleverJoueur').addEventListener('click', toggleModeSuppression);
 
 function supprimerJoueur() {
     if (modeSuppression) {
@@ -128,3 +125,36 @@ window.addEventListener("resize", positionJoueurs);
 
 //position des joueurs
 positionJoueurs();
+
+let mise = 0;
+
+function majMise(somme) {
+    mise = somme;
+    document.getElementById("mise").textContent = `mise : ${mise}`;
+}
+
+function modifierMise(bouton) {
+    // Crée un champ input pour éditer le texte
+    const input = document.createElement('input');
+    input.type = 'number';
+    
+    // Remplace le contenu de l'élément par l'input
+    bouton.textContent = '';
+    bouton.appendChild(input);
+    input.focus(); // Met le focus sur l'input pour l'édition immédiate
+
+    // Gestion de la sauvegarde du texte
+    input.addEventListener('blur', () => {
+        if (!(input.value == "" || Number(input.value) < 0 || !Number.isInteger(Number(input.value)))){
+            majMise(input.value);
+        }
+        bouton.textContent = "Modifier mise";
+    });
+
+    // Option de sauvegarde du texte avec la touche "Enter"
+    input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            input.blur(); // Déclenche l'événement blur pour sauvegarder
+        }
+    });
+}

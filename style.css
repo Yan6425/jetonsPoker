@@ -86,10 +86,6 @@ body {
     text-align: center;
 }
 
-input {
-    width: 15vw;
-}
-
 @media (min-width:100vh){
     #centre {
         font-size: 4vh;
