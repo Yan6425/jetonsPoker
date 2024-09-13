@@ -39,12 +39,13 @@ function modifierSolde() {
 
     // Gestion de la sauvegarde du texte
     input.addEventListener('blur', () => {
-        if (input.value >= 0) {
-            this.textContent = input.value; // Utilise `this` pour l'élément actuel
-        }
-        if (!(this.textContent === "number")) {
+        if (input.value == "" || Number(input.value) < 0 || !Number.isInteger(Number(input.value))){
             this.textContent = "0";
         }
+        else {
+            this.textContent = input.value; // Utilise `this` pour l'élément actuel
+        }
+        
     });
 
     // Option de sauvegarde du texte avec la touche "Enter"
