@@ -1,13 +1,6 @@
-le faire en cercle si possible pour pouvoir tourner facilement. le cercle modifie ses proportions en fonctions du nombre de joueurs.
-Si tu te chauffes Yan fais les joueurs autour d'une table de poker.
-
 gérer les Small et big blinds qu'on puisse customs le montant (une big est toujours le double d'une Small)
 
 rajouter de l'argent a qqn manuellement
 
 revenir à l'action faites juste avant au cas où il y aurait une erreur
-recommencer la partie au cas où plusieurs erreurs ou si qqn devait arreter
-recommencer la game
-
-afficher le nb de jetons (inspire toi de pokerstars peut être)
 
