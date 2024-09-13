@@ -63,7 +63,7 @@ body {
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    border-radius: 30px;
+    border-radius: 6.4vw;
     color: white;
     font-weight: bold;
     font-size: 2.7vw;
@@ -95,6 +95,7 @@ body {
         width: 16vh; /* Taille des cartes */
         height: 16vh;
         font-size: 2.7vh;
+        border-radius: 6.4vh;
     }
     
     input {
