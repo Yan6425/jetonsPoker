@@ -160,14 +160,15 @@ function majMise(somme) {
     document.getElementById("mise").textContent = `mise : ${mise}`;
 }
 
-function modifierMise(bouton) {
+function modifierMise() {
     // Crée un champ input pour éditer le texte
     const input = document.createElement('input');
     input.type = 'number';
+    const texteMise = document.getElementById("mise");
     
     // Remplace le contenu de l'élément par l'input
-    bouton.textContent = '';
-    bouton.appendChild(input);
+    texteMise.textContent = '';
+    texteMise.appendChild(input);
     input.focus(); // Met le focus sur l'input pour l'édition immédiate
 
     // Gestion de la sauvegarde du texte
@@ -175,7 +176,6 @@ function modifierMise(bouton) {
         if (!(input.value == "" || Number(input.value) < 0 || !Number.isInteger(Number(input.value)))){
             majMise(input.value);
         }
-        bouton.textContent = "Modifier mise";
     });
 
     // Option de sauvegarde du texte avec la touche "Enter"
