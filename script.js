@@ -1,5 +1,5 @@
 function modifierNom() {
-    if (!modeCouchation && !modeSuppression){
+    if (!modeCouchation && !modeSuppression && !modeGagnage){
         // Crée un champ input pour éditer le texte
         const input = document.createElement('input');
         input.type = 'text';
@@ -29,7 +29,7 @@ document.querySelectorAll(".nom").forEach(element => {
 });
 
 function modifierSolde() {
-    if (!modeCouchation && !modeSuppression){
+    if (!modeCouchation && !modeSuppression && !modeGagnage){
         // Crée un champ input pour éditer le texte
         const input = document.createElement('input');
         input.type = 'number';
@@ -46,7 +46,7 @@ function modifierSolde() {
                 this.textContent = "0";
             }
             else {
-                this.textContent = input.value; // Utilise `this` pour l'élément actuel
+                majSolde(this.parentNode.id, input.value); 
             }
         });
     
@@ -73,6 +73,8 @@ function genererId() {
     return id;
 }
 
+let soldeDepart = 500;
+
 function ajouterJoueur() {
     if (nbJoueurs < 10){
         nbJoueurs = nbJoueurs + 1;
@@ -81,6 +83,7 @@ function ajouterJoueur() {
         joueur.className = "joueur";
         joueur.id = genererId();
         miseParJoueur[joueur.id] = 0;
+        soldes[joueur.id] = soldeDepart;
         const nom = document.createElement("div");
         nom.className = "nom";
         nom.textContent = "Entrez un nom";
@@ -99,14 +102,17 @@ function ajouterJoueur() {
 
 let miseParJoueur = {};
 
-function initialiserDict() {
+let soldes = {};
+
+function initialiserPartie() {
     document.querySelectorAll(".joueur").forEach(joueur => {
         joueur.id = genererId();
         miseParJoueur[joueur.id] = 0;
+        majSolde(joueur.id, soldeDepart);
     });
 }
 
-initialiserDict();
+initialiserPartie();
 
 let modeSuppression = false; // Variable pour suivre l'état du mode suppression
 
@@ -141,7 +147,7 @@ function positionJoueurs() {
     const totalPlayers = players.length; // Compte le nombre total de joueurs
     const incrementAngle = 360 / totalPlayers; // Calcule l'angle entre chaque joueur
     const rayonCercle = window.innerHeight < window.innerWidth ? "30vh" : "30vw";
-
+    
     players.forEach((player, index) => {
         const angle = incrementAngle * index; // Calcule l'angle pour chaque joueur
         player.style.transform = `rotate(${angle - 90}deg) translate(${rayonCercle}) rotate(${-angle + 90}deg)`; // Applique les transformations CSS
@@ -174,7 +180,7 @@ function modifierMise() {
     // Gestion de la sauvegarde du texte
     input.addEventListener('blur', () => {
         if (!(input.value == "" || Number(input.value) < 0 || !Number.isInteger(Number(input.value)))){
-            majMise(input.value);
+            majMise(Number(input.value));
         }
     });
 
@@ -186,11 +192,11 @@ function modifierMise() {
     });
 }
 
-let modeCouchation = false; // Variable pour suivre l'état du mode suppression
+let modeCouchation = false; // Variable pour suivre l'état du mode couchation
 
-// Fonction pour activer/désactiver le mode suppression
+// Fonction pour activer/désactiver le mode couchation
 function toggleModeCouchation() {
-    modeCouchation = !modeCouchation; // Inverse l'état du mode suppression
+    modeCouchation = !modeCouchation; // Inverse l'état du mode couchation
     const button = document.getElementById('coucher');
     button.style.backgroundColor = modeCouchation ? "red" : "white";
 }
@@ -199,7 +205,7 @@ function coucherJoueur() {
     if (modeCouchation) {
         delete miseParJoueur[this.id];
         this.style.backgroundColor = "grey";
-        modeCouchation = false; // Désactive le mode suppression après la suppression
+        modeCouchation = false; // Désactive le mode couchation après la couchation
         const bouton = document.getElementById('coucher');
         bouton.style.backgroundColor = "white"; // Met à jour la couleur du bouton
     }
@@ -207,4 +213,67 @@ function coucherJoueur() {
 
 document.querySelectorAll('.joueur').forEach(element => {
     element.addEventListener('click', coucherJoueur);
+});
+
+function majSolde(idJoueur, somme) {
+    soldes[idJoueur] = somme;
+    document.getElementById(idJoueur).querySelector(".solde").textContent = `${soldes[idJoueur]}`;
+}
+
+function addSolde(idJoueur, somme) {
+    soldes[idJoueur] += somme;
+    document.getElementById(idJoueur).querySelector(".solde").textContent = `${soldes[idJoueur]}`;
+}
+
+let cagnotte = 0;
+
+function majCagnotte(somme){
+    cagnotte = somme;
+    document.getElementById("cagnotte").textContent = `cagnotte : ${cagnotte}`;
+}
+
+function addCagnotte(somme){
+    cagnotte += somme;
+    document.getElementById("cagnotte").textContent = `cagnotte : ${cagnotte}`;
+}
+
+function terminerTour() {
+    for (const idJoueur in miseParJoueur) {
+        const somme = soldes[idJoueur] < mise ? soldes[idJoueur] : mise;
+        addSolde(idJoueur, -somme);
+        miseParJoueur[idJoueur] += somme;
+        addCagnotte(somme);
+    }
+    majMise(0);
+}
+
+let modeGagnage = false; // Variable pour suivre l'état du mode gagnage
+
+// Fonction pour activer/désactiver le mode suppression
+function toggleModeGagnage() {
+    modeGagnage = !modeGagnage; // Inverse l'état du mode suppression
+    const button = document.getElementById('gagnant');
+    button.style.backgroundColor = modeGagnage ? "red" : "white";
+}
+
+function initialiserMPJ() {
+    document.querySelectorAll(".joueur").forEach(joueur => {
+        miseParJoueur[joueur.id] = 0;
+    });
+}
+
+function selectionnerGagnant() {
+    if (modeGagnage) {
+        terminerTour();
+        addSolde(this.id, cagnotte);
+        majCagnotte(0);
+        initialiserMPJ();
+        modeGagnage = false; // Désactive le mode suppression après la suppression
+        const bouton = document.getElementById('gagnant');
+        bouton.style.backgroundColor = "white"; // Met à jour la couleur du bouton
+    }
+}
+
+document.querySelectorAll('.joueur').forEach(element => {
+    element.addEventListener('click', selectionnerGagnant)
 });
