@@ -118,6 +118,7 @@ let modeSuppression = false; // Variable pour suivre l'état du mode suppression
 
 // Fonction pour activer/désactiver le mode suppression
 function toggleModeSuppression() {
+    if (!modeSuppression) {resetModes();}
     modeSuppression = !modeSuppression; // Inverse l'état du mode suppression
     const button = document.getElementById('enleverJoueur');
     button.style.backgroundColor = modeSuppression ? "red" : "white";
@@ -197,6 +198,7 @@ let modeCouchation = false; // Variable pour suivre l'état du mode couchation
 
 // Fonction pour activer/désactiver le mode couchation
 function toggleModeCouchation() {
+    if (!modeCouchation) {resetModes();}
     modeCouchation = !modeCouchation; // Inverse l'état du mode couchation
     const button = document.getElementById('coucher');
     button.style.backgroundColor = modeCouchation ? "red" : "white";
@@ -263,6 +265,7 @@ let modeGagnage = false; // Variable pour suivre l'état du mode gagnage
 
 // Fonction pour activer/désactiver le mode suppression
 function toggleModeGagnage() {
+    if (!modeGagnage) {resetModes();}
     modeGagnage = !modeGagnage; // Inverse l'état du mode suppression
     const button = document.getElementById('gagnant');
     button.style.backgroundColor = modeGagnage ? "red" : "white";
@@ -294,3 +297,12 @@ function selectionnerGagnant() {
 document.querySelectorAll('.joueur').forEach(element => {
     element.addEventListener('click', selectionnerGagnant)
 });
+
+function resetModes() {
+    modeCouchation = false;
+    modeGagnage = false;
+    modeSuppression = false;
+    document.querySelectorAll(".bouton").forEach(bouton => {
+        bouton.style.backgroundColor = "white";
+    });
+}
