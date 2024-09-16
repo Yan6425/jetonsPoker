@@ -206,9 +206,6 @@ function coucherJoueur() {
     if (modeCouchation) {
         delete cagnotteParJoueur[this.id];
         this.style.backgroundColor = "grey";
-        modeCouchation = false; // Désactive le mode couchation après la couchation
-        const bouton = document.getElementById('coucher');
-        bouton.style.backgroundColor = "white"; // Met à jour la couleur du bouton
     }
 }
 
