@@ -95,6 +95,8 @@ function ajouterJoueur() {
         solde.addEventListener("click", modifierSolde);
         joueur.appendChild(solde);
         joueur.addEventListener("click", supprimerJoueur);
+        joueur.addEventListener("click", coucherJoueur);
+        joueur.addEventListener("click", selectionnerGagnant);
         cercle.appendChild(joueur);
         positionJoueurs();
     }
