@@ -82,7 +82,7 @@ function ajouterJoueur() {
         const joueur = document.createElement("div");
         joueur.className = "joueur";
         joueur.id = genererId();
-        miseParJoueur[joueur.id] = 0;
+        cagnotteParJoueur[joueur.id] = 0;
         soldes[joueur.id] = soldeDepart;
         const nom = document.createElement("div");
         nom.className = "nom";
@@ -100,14 +100,14 @@ function ajouterJoueur() {
     }
 }
 
-let miseParJoueur = {};
+let cagnotteParJoueur = {};
 
 let soldes = {};
 
 function initialiserPartie() {
     document.querySelectorAll(".joueur").forEach(joueur => {
         joueur.id = genererId();
-        miseParJoueur[joueur.id] = 0;
+        cagnotteParJoueur[joueur.id] = 0;
         majSolde(joueur.id, soldeDepart);
     });
 }
@@ -127,7 +127,7 @@ function toggleModeSuppression() {
 function supprimerJoueur() {
     if (modeSuppression) {
         nbJoueurs = nbJoueurs - 1;
-        delete miseParJoueur[this.id];
+        delete cagnotteParJoueur[this.id];
         this.remove(); // Supprime l'élément cliqué
         modeSuppression = false; // Désactive le mode suppression après la suppression
         const bouton = document.getElementById('enleverJoueur');
@@ -143,12 +143,12 @@ document.querySelectorAll('.joueur').forEach(element => {
 
 
 function positionJoueurs() {
-    const players = document.querySelectorAll('.joueur'); // Sélectionne tous les éléments avec la classe 'joueur'
-    const totalPlayers = players.length; // Compte le nombre total de joueurs
-    const incrementAngle = 360 / totalPlayers; // Calcule l'angle entre chaque joueur
+    const joueurs = document.querySelectorAll('.joueur'); // Sélectionne tous les éléments avec la classe 'joueur'
+    const nbJoueurs = joueurs.length; // Compte le nombre total de joueurs
+    const incrementAngle = 360 / nbJoueurs; // Calcule l'angle entre chaque joueur
     const rayonCercle = window.innerHeight < window.innerWidth ? "30vh" : "30vw";
     
-    players.forEach((player, index) => {
+    joueurs.forEach((player, index) => {
         const angle = incrementAngle * index; // Calcule l'angle pour chaque joueur
         player.style.transform = `rotate(${angle - 90}deg) translate(${rayonCercle}) rotate(${-angle + 90}deg)`; // Applique les transformations CSS
     });
@@ -162,6 +162,7 @@ positionJoueurs();
 let mise = 0;
 
 function majMise(somme) {
+    somme = Number(somme);
     mise = somme;
     document.getElementById("mise").textContent = `mise : ${mise}`;
 }
@@ -203,7 +204,7 @@ function toggleModeCouchation() {
 
 function coucherJoueur() {
     if (modeCouchation) {
-        delete miseParJoueur[this.id];
+        delete cagnotteParJoueur[this.id];
         this.style.backgroundColor = "grey";
         modeCouchation = false; // Désactive le mode couchation après la couchation
         const bouton = document.getElementById('coucher');
@@ -216,11 +217,13 @@ document.querySelectorAll('.joueur').forEach(element => {
 });
 
 function majSolde(idJoueur, somme) {
+    somme = Number(somme);
     soldes[idJoueur] = somme;
     document.getElementById(idJoueur).querySelector(".solde").textContent = `${soldes[idJoueur]}`;
 }
 
 function addSolde(idJoueur, somme) {
+    somme = Number(somme);
     soldes[idJoueur] += somme;
     document.getElementById(idJoueur).querySelector(".solde").textContent = `${soldes[idJoueur]}`;
 }
@@ -228,21 +231,33 @@ function addSolde(idJoueur, somme) {
 let cagnotte = 0;
 
 function majCagnotte(somme){
+    somme = Number(somme);
     cagnotte = somme;
     document.getElementById("cagnotte").textContent = `cagnotte : ${cagnotte}`;
 }
 
 function addCagnotte(somme){
+    somme = Number(somme);
     cagnotte += somme;
     document.getElementById("cagnotte").textContent = `cagnotte : ${cagnotte}`;
 }
 
 function terminerTour() {
-    for (const idJoueur in miseParJoueur) {
+    const soldesJoueursAllin = {};
+    for (const idJoueur in cagnotteParJoueur) {
+        if (soldes[idJoueur] < mise) {
+            soldesJoueursAllin[idJoueur] = soldes[idJoueur];
+            addCagnotte(soldes[idJoueur]);
+        }
+        else{ addCagnotte(mise);}
+    }
+    for (const idJoueur in cagnotteParJoueur) {
         const somme = soldes[idJoueur] < mise ? soldes[idJoueur] : mise;
+        for (const idJoueurAllin in soldesJoueursAllin) {
+            cagnotteParJoueur[idJoueur] += soldesJoueursAllin[idJoueurAllin] < somme ? soldesJoueursAllin[idJoueur] : somme;
+        }
+        cagnotteParJoueur[idJoueur] += somme * (Object.keys(cagnotteParJoueur).length - Object.keys(soldesJoueursAllin).length);
         addSolde(idJoueur, -somme);
-        miseParJoueur[idJoueur] += somme;
-        addCagnotte(somme);
     }
     majMise(0);
 }
@@ -256,21 +271,26 @@ function toggleModeGagnage() {
     button.style.backgroundColor = modeGagnage ? "red" : "white";
 }
 
-function initialiserMPJ() {
+function initialiserCPJ() {
     document.querySelectorAll(".joueur").forEach(joueur => {
-        miseParJoueur[joueur.id] = 0;
+        cagnotteParJoueur[joueur.id] = 0;
     });
 }
 
 function selectionnerGagnant() {
-    if (modeGagnage) {
+    if (modeGagnage && this.id in cagnotteParJoueur) {
         terminerTour();
-        addSolde(this.id, cagnotte);
-        majCagnotte(0);
-        initialiserMPJ();
-        modeGagnage = false; // Désactive le mode suppression après la suppression
-        const bouton = document.getElementById('gagnant');
-        bouton.style.backgroundColor = "white"; // Met à jour la couleur du bouton
+        const somme = cagnotteParJoueur[this.id] < cagnotte ? cagnotteParJoueur[this.id] : cagnotte;
+        addSolde(this.id, somme);
+        addCagnotte(-somme);
+        if (cagnotte == 0){
+            initialiserCPJ();
+            modeGagnage = false; // Désactive le mode suppression après la suppression
+            document.getElementById('gagnant').style.backgroundColor = "white"; // Met à jour la couleur du bouton
+            document.querySelectorAll(".joueur").forEach(joueur => {
+                joueur.style.backgroundColor = "orange";
+            });
+        }
     }
 }
 
