@@ -130,6 +130,9 @@ function toggleModeSuppression() {
 function supprimerJoueur() {
     if (modeSuppression) {
         nbJoueurs = nbJoueurs - 1;
+        if (positionDealer > Array.from(document.querySelectorAll(".joueur")).indexOf(this)){
+            positionDealer = (positionDealer - 1) % nbJoueurs;
+        }
         delete cagnotteParJoueur[this.id];
         this.remove(); // Supprime l'élément cliqué
         positionJoueurs();
@@ -141,17 +144,21 @@ document.querySelectorAll('.joueur').forEach(element => {
     element.addEventListener('click', supprimerJoueur)
 });
 
+let positionDealer = 0;
 
 function positionJoueurs() {
     const joueurs = document.querySelectorAll('.joueur'); // Sélectionne tous les éléments avec la classe 'joueur'
     const nbJoueurs = joueurs.length; // Compte le nombre total de joueurs
     const incrementAngle = 360 / nbJoueurs; // Calcule l'angle entre chaque joueur
     const rayonCercle = window.innerHeight < window.innerWidth ? "30vh" : "30vw";
+    const rayonDealer = window.innerHeight < window.innerWidth ? "17vh" : "17vw";
     
     joueurs.forEach((player, index) => {
         const angle = incrementAngle * index; // Calcule l'angle pour chaque joueur
         player.style.transform = `rotate(${angle - 90}deg) translate(${rayonCercle}) rotate(${-angle + 90}deg)`; // Applique les transformations CSS
     });
+    const angle = incrementAngle * positionDealer;
+    document.getElementById("dealer").style.transform = `rotate(${angle - 90}deg) translate(${rayonDealer}) rotate(${-angle + 90}deg)`;
 }
 
 window.addEventListener("resize", positionJoueurs);
@@ -177,14 +184,14 @@ function modifierMise() {
     texteMise.textContent = '';
     texteMise.appendChild(input);
     input.focus(); // Met le focus sur l'input pour l'édition immédiate
-
+    
     // Gestion de la sauvegarde du texte
     input.addEventListener('blur', () => {
         if (!(input.value == "" || Number(input.value) < 0 || !Number.isInteger(Number(input.value)))){
             majMise(Number(input.value));
         }
     });
-
+    
     // Option de sauvegarde du texte avec la touche "Enter"
     input.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
@@ -205,10 +212,16 @@ function toggleModeCouchation() {
 
 function coucherJoueur() {
     if (modeCouchation) {
+        pos = Array.from(document.querySelectorAll(".joueur")).indexOf(this);
+        posRelativeDealer = ((pos - positionDealer) % nbJoueurs + nbJoueurs) % nbJoueurs;
+        if ([1, 2].includes(posRelativeDealer)) {
+            addSolde(this.id, -misePetiteBlinde * posRelativeDealer);
+        }
         delete cagnotteParJoueur[this.id];
         this.style.backgroundColor = "grey";
     }
 }
+
 
 document.querySelectorAll('.joueur').forEach(element => {
     element.addEventListener('click', coucherJoueur);
@@ -241,6 +254,7 @@ function addCagnotte(somme){
 }
 
 function terminerTour() {
+    premierTour = false;
     const soldesJoueursAllin = {};
     for (const idJoueur in cagnotteParJoueur) {
         if (soldes[idJoueur] < mise) {
@@ -276,19 +290,25 @@ function initialiserCPJ() {
     });
 }
 
+let premierTour = true;
+
 function selectionnerGagnant() {
     if (modeGagnage && this.id in cagnotteParJoueur) {
-        terminerTour();
+        if (!premierTour){terminerTour();}
         const somme = cagnotteParJoueur[this.id] < cagnotte ? cagnotteParJoueur[this.id] : cagnotte;
         addSolde(this.id, somme);
         addCagnotte(-somme);
         if (cagnotte == 0){
             initialiserCPJ();
-            modeGagnage = false; // Désactive le mode suppression après la suppression
-            document.getElementById('gagnant').style.backgroundColor = "white"; // Met à jour la couleur du bouton
             document.querySelectorAll(".joueur").forEach(joueur => {
                 joueur.style.backgroundColor = "orange";
             });
+            positionDealer = (positionDealer + 1) % nbJoueurs;
+            positionJoueurs();
+            majMise(misePetiteBlinde * 2);
+            premierTour = true;
+            modeGagnage = false; // Désactive le mode suppression après la suppression
+            document.getElementById('gagnant').style.backgroundColor = "white"; // Met à jour la couleur du bouton
         }
     }
 }
@@ -304,4 +324,39 @@ function resetModes() {
     document.querySelectorAll(".bouton").forEach(bouton => {
         bouton.style.backgroundColor = "white";
     });
+    document.querySelector
 }
+
+let misePetiteBlinde = 50;
+majMise(misePetiteBlinde * 2);
+
+function changerPetiteBlinde(){
+    // Crée un champ input pour éditer le texte
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.value = this.textContent; // Utilise `this` pour accéder à l'élément actuel
+    
+    // Remplace le contenu de l'élément par l'input
+    this.appendChild(input);
+    input.focus(); // Met le focus sur l'input pour l'édition immédiate
+
+    // Gestion de la sauvegarde du texte
+    input.addEventListener('blur', () => {
+        if (!(input.value == "" || Number(input.value) < 0 || !Number.isInteger(Number(input.value)))){
+            misePetiteBlinde = Number(input.value);
+            if (premierTour) {
+                majMise(Number(input.value));
+            }
+        }
+        input.remove();
+    });
+
+    // Option de sauvegarde du texte avec la touche "Enter"
+    input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            input.blur(); // Déclenche l'événement blur pour sauvegarder
+        }
+    });
+}
+
+document.getElementById("dealer").addEventListener("click", changerPetiteBlinde);

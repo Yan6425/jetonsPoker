@@ -86,6 +86,16 @@ body {
     text-align: center;
 }
 
+#dealer {
+    background-image: url("https://latabledepoker.com/cdn/shop/files/dealer-button-thick_1024x.png?v=1720891065");
+    background-size: cover;
+    height: 25vw;
+    width: 25vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 @media (min-width:100vh){
     #centre {
         font-size: 4vh;
@@ -100,6 +110,11 @@ body {
     
     input {
         width: 14vh;
+    }
+    
+    #dealer {
+        height: 25vh;
+        width: 25vh;
     }
 }
 
