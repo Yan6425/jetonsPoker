@@ -252,7 +252,7 @@ function terminerTour() {
     for (const idJoueur in cagnotteParJoueur) {
         const somme = soldes[idJoueur] < mise ? soldes[idJoueur] : mise;
         for (const idJoueurAllin in soldesJoueursAllin) {
-            cagnotteParJoueur[idJoueur] += soldesJoueursAllin[idJoueurAllin] < somme ? soldesJoueursAllin[idJoueur] : somme;
+            cagnotteParJoueur[idJoueur] += soldesJoueursAllin[idJoueurAllin] < somme ? soldesJoueursAllin[idJoueurAllin] : somme;
         }
         cagnotteParJoueur[idJoueur] += somme * (Object.keys(cagnotteParJoueur).length - Object.keys(soldesJoueursAllin).length);
         addSolde(idJoueur, -somme);
