@@ -37,7 +37,7 @@ body {
 }
 
 .bouton {
-    width: 12vw;
+    width: 12%;
     height: 75%;
     font-size: 1.6vw;
     font-weight: bold;
@@ -103,3 +103,20 @@ body {
     }
 }
 
+@media (max-width:75vh){
+    #cercle {
+        height: 63%;
+    }
+    
+    #boutons {
+        height: 35%;
+        flex-wrap: wrap;
+    }
+
+    .bouton {
+        width: 20%;
+        height: 35%;
+        font-size: 3vw;
+        margin: 3vw;
+    }
+}
