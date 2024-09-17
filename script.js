@@ -132,9 +132,6 @@ function supprimerJoueur() {
         nbJoueurs = nbJoueurs - 1;
         delete cagnotteParJoueur[this.id];
         this.remove(); // Supprime l'élément cliqué
-        modeSuppression = false; // Désactive le mode suppression après la suppression
-        const bouton = document.getElementById('enleverJoueur');
-        bouton.style.backgroundColor = "white"; // Met à jour le texte du bouton
         positionJoueurs();
     }
 }
