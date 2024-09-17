@@ -345,7 +345,7 @@ function changerPetiteBlinde(){
         if (!(input.value == "" || Number(input.value) < 0 || !Number.isInteger(Number(input.value)))){
             misePetiteBlinde = Number(input.value);
             if (premierTour) {
-                majMise(Number(input.value));
+                majMise(Number(input.value) * 2);
             }
         }
         input.remove();
