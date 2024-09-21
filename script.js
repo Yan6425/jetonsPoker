@@ -86,7 +86,7 @@ function ajouterJoueur() {
         soldes[joueur.id] = soldeDepart;
         const nom = document.createElement("div");
         nom.className = "nom";
-        nom.textContent = "Entrez un nom";
+        nom.textContent = "...";
         nom.addEventListener("click", modifierNom);
         joueur.appendChild(nom);
         const solde = document.createElement("div");

@@ -74,9 +74,9 @@ body {
     justify-content: space-evenly;
     align-items: center;
     border-radius: 100px;
-    outline:#ffffff solid 2px;
+    outline:rgb(255, 123, 0) solid 4px;
     color: white;
-    font-weight: bold;
+    font-weight: bolder;
     font-size: 2.7vw;
     transition: transform 0.3s;
 }
@@ -104,6 +104,7 @@ input {
     text-align: center;
     border-radius: 6px;
     outline:#363636 solid 2px;
+    background-color: transparent;
 }
 
 #dealer {
@@ -114,6 +115,7 @@ input {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 4;
 }
 
 #auteur {
