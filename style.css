@@ -1,11 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Gowun Batang",Arial, sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 95vh;
-    margin-bottom: 5vh;
-    background-color: #000;
+    height: 100vh;
+    background-color: #3c506b;
     color: #fff;
 }
 
@@ -14,7 +15,7 @@ body {
     height: 100%;
     position: relative;
     background-color: #19561c;
-    border: 2px solid #352507; /* Optionnel : bordure pour voir les limites */
+    outline: 5px solid #0a230b; /* Optionnel : bordure pour voir les limites */
     border-radius: 8px; /* Optionnel : coins arrondis */
 }
 
@@ -37,10 +38,18 @@ body {
 }
 
 .bouton {
+    all: unset;
+    color:black;
+    background-color: #fff;
+    text-align: center;
     width: 12%;
     height: 75%;
     font-size: 1.6vw;
     font-weight: bold;
+    outline:#363636 solid 2px;
+    border-radius: 6px;
+    padding: 1%;
+
 }
 
 #centre {
@@ -57,13 +66,15 @@ body {
 .joueur {
     position: absolute;
     width: 16vw; /* Taille des cartes */
+    padding: 1vw;
     height: 16vw;
-    background-color: #f39c12; /* Couleur de fond des cartes */
+    background-color: orange; /* Couleur de fond des cartes */
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    border-radius: 6.4vw;
+    border-radius: 100px;
+    outline:#ffffff solid 2px;
     color: white;
     font-weight: bold;
     font-size: 2.7vw;
@@ -86,6 +97,15 @@ body {
     text-align: center;
 }
 
+input {
+    width: 14vw;
+    height: 4vw;
+    font-size: 2vw;
+    text-align: center;
+    border-radius: 6px;
+    outline:#363636 solid 2px;
+}
+
 #dealer {
     background-image: url("https://latabledepoker.com/cdn/shop/files/dealer-button-thick_1024x.png?v=1720891065");
     background-size: cover;
@@ -94,6 +114,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#auteur {
+    position: absolute;
+    top: 0;
+    left: 50;
+    font-size: 1em;
+    color: #0a230b;
+    border-radius: 6px;
+    padding-left: 1vw;
 }
 
 @media (min-width:100vh){
@@ -105,7 +135,6 @@ body {
         width: 16vh; /* Taille des cartes */
         height: 16vh;
         font-size: 2.7vh;
-        border-radius: 6.4vh;
     }
     
     input {

@@ -123,7 +123,7 @@ function toggleModeSuppression() {
     if (!modeSuppression) {resetModes();}
     modeSuppression = !modeSuppression; // Inverse l'état du mode suppression
     const button = document.getElementById('enleverJoueur');
-    button.style.backgroundColor = modeSuppression ? "red" : "white";
+    button.style.backgroundColor = modeSuppression ? "#f7665f" : "white";
 }
 
 
@@ -207,7 +207,7 @@ function toggleModeCouchation() {
     if (!modeCouchation) {resetModes();}
     modeCouchation = !modeCouchation; // Inverse l'état du mode couchation
     const button = document.getElementById('coucher');
-    button.style.backgroundColor = modeCouchation ? "red" : "white";
+    button.style.backgroundColor = modeCouchation ? "#f7665f" : "white";
 }
 
 function coucherJoueur() {
@@ -281,7 +281,7 @@ function toggleModeGagnage() {
     if (!modeGagnage) {resetModes();}
     modeGagnage = !modeGagnage; // Inverse l'état du mode suppression
     const button = document.getElementById('gagnant');
-    button.style.backgroundColor = modeGagnage ? "red" : "white";
+    button.style.backgroundColor = modeGagnage ? "#f7665f" : "white";
 }
 
 function initialiserCPJ() {
