@@ -1,30 +1,28 @@
 class Joueur {
 	constructor() {
-        if (listeJoueurs.length < 10) {
-            const cercle = document.getElementById('cercle');
-            this.balise = document.createElement('div');
-            this.balise.className = 'joueur';
-            this.genererId();
-            cagnotteParJoueur[this.balise.id] = 0;
+        const cercle = document.getElementById('cercle');
+        this.balise = document.createElement('div');
+        this.balise.className = 'joueur';
+        this.genererId();
+        cagnotteParJoueur[this.balise.id] = 0;
 
-            this.nom = document.createElement('div');
-            this.nom.className = 'nom';
-            this.nom.textContent = 'Entrez un nom';
-            this.nom.addEventListener('click', this.modifierNom);
-            this.balise.appendChild(this.nom);
+        this.nom = document.createElement('div');
+        this.nom.className = 'nom';
+        this.nom.textContent = 'Entrez un nom';
+        this.nom.addEventListener('click', this.modifierNom.bind(this));
+        this.balise.appendChild(this.nom);
 
-            this.solde = document.createElement('div');
-            this.solde.className = 'solde';
-            this.majSolde(soldeDepart);
-            this.solde.addEventListener('click', this.modifierSolde);
-            this.balise.appendChild(this.solde);
+        this.solde = document.createElement('div');
+        this.solde.className = 'solde';
+        this.majSolde(soldeDepart);
+        this.solde.addEventListener('click', this.modifierSolde.bind(this));
+        this.balise.appendChild(this.solde);
 
-            this.balise.addEventListener('click', this.coucher);
-            this.balise.addEventListener('click', this.gagnant);
-            this.balise.addEventListener('click', this.supprimer);
-            cercle.appendChild(this.balise);
-            positionJoueurs();
-        }
+        this.balise.addEventListener('click', this.coucher.bind(this));
+        this.balise.addEventListener('click', this.gagnant.bind(this));
+        this.balise.addEventListener('click', this.supprimer.bind(this));
+        cercle.appendChild(this.balise);
+        positionJoueurs();
     }
 
     genererId() {
@@ -133,7 +131,7 @@ class Joueur {
             this.addSolde(somme);
             addCagnotte(-somme);
             if (cagnotte == 0) {
-                initialiserPartie();
+                nouvellePartie();
             }
         }
     }
