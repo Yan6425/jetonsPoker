@@ -1,19 +1,16 @@
 // -------------------- bouton Ajouter joueur --------------------
-document.getElementById('ajouterJoueur').addEventListener(
-    'click',
-    function() {
-        if (nbJoueurs < 10){
-            nbJoueurs++; 
-            new Joueur;
-        }
-    }
-);
-
+function ajouterJoueur() {
+	if (nbJoueurs < 10) {
+		nbJoueurs++;
+		new Joueur();
+	}
+}
+document
+	.getElementById('ajouterJoueur')
+	.addEventListener('click', ajouterJoueur);
 
 // -------------------- bouton Terminer tour ---------------------
-document.getElementById('tour').addEventListener(
-    'click',
-    function() {
+function terminerTour() {
 	premierTour = false;
 	const soldesJoueursAllin = {};
 	for (const idJoueur in cagnotteParJoueur) {
@@ -28,24 +25,22 @@ document.getElementById('tour').addEventListener(
 		const somme = soldes[idJoueur] < mise ? soldes[idJoueur] : mise;
 		for (const idJoueurAllin in soldesJoueursAllin) {
 			cagnotteParJoueur[idJoueur] +=
-			soldesJoueursAllin[idJoueurAllin] < somme
+				soldesJoueursAllin[idJoueurAllin] < somme
 					? soldesJoueursAllin[idJoueurAllin]
 					: somme;
-				}
-				cagnotteParJoueur[idJoueur] +=
-				somme *
-				(Object.keys(cagnotteParJoueur).length -
+		}
+		cagnotteParJoueur[idJoueur] +=
+			somme *
+			(Object.keys(cagnotteParJoueur).length -
 				Object.keys(soldesJoueursAllin).length);
-				addSolde(idJoueur, -somme);
+		joueurs[idJoueur].addSolde(-somme);
 	}
 	majMise(0);
-});
-
+}
+document.getElementById('tour').addEventListener('click', terminerTour);
 
 // -------------------- bouton Modifier mise ---------------------
-document.getElementById('mise').addEventListener(
-    'click',
-    function() {
+function modifierMise() {
 	// Crée un champ input pour éditer le texte
 	const input = document.createElement('input');
 	input.type = 'number';
@@ -55,7 +50,7 @@ document.getElementById('mise').addEventListener(
 	texteMise.textContent = '';
 	texteMise.appendChild(input);
 	input.focus(); // Met le focus sur l'input pour l'édition immédiate
-	
+
 	// Gestion de la sauvegarde du texte
 	input.addEventListener('blur', () => {
 		if (
@@ -75,61 +70,57 @@ document.getElementById('mise').addEventListener(
 			input.blur(); // Déclenche l'événement blur pour sauvegarder
 		}
 	});
-});
-
+}
+document.getElementById('miser').addEventListener('click', modifierMise);
 
 // -------------------- bouton Coucher joueur ---------------------
 // Fonction pour activer/désactiver le mode couchation
-document.getElementById('coucher').addEventListener(
-    'click',
-    function() {
+function coucherJoueur() {
 	if (!modeCouchation) {
 		resetModes();
 	}
 	modeCouchation = !modeCouchation; // Inverse l'état du mode couchation
 	const button = document.getElementById('coucher');
 	button.style.backgroundColor = modeCouchation ? 'red' : 'white';
-});
-
+}
+document.getElementById('coucher').addEventListener('click', coucherJoueur);
 
 // -------------------- bouton Sélectionner gagnant ---------------------
 // Fonction pour activer/désactiver le mode gagnage
-document.getElementById('gagnant').addEventListener(
-    'click',
-    function() {
+function selectionnerGagnant() {
 	if (!modeGagnage) {
 		resetModes();
 	}
 	modeGagnage = !modeGagnage; // Inverse l'état du mode suppression
 	const button = document.getElementById('gagnant');
 	button.style.backgroundColor = modeGagnage ? 'red' : 'white';
-});
-
+}
+document
+	.getElementById('gagnant')
+	.addEventListener('click', selectionnerGagnant);
 
 // -------------------- bouton Supprimer joueur ---------------------
 // Fonction pour activer/désactiver le mode suppression
-document.getElementById('enleverJoueur').addEventListener(
-    'click',
-    function() {
+function enleverJoueur() {
 	if (!modeSuppression) {
 		resetModes();
 	}
 	modeSuppression = !modeSuppression; // Inverse l'état du mode suppression
 	const button = document.getElementById('enleverJoueur');
 	button.style.backgroundColor = modeSuppression ? 'red' : 'white';
-});
-
+}
+document
+	.getElementById('enleverJoueur')
+	.addEventListener('click', enleverJoueur);
 
 // -------------------- bouton Dealer ---------------------
 // Fonction pour changer la valeur de la petite blinde
-document.getElementById('dealer').addEventListener(
-    'click',
-    function() {
+function changerPetiteMise() {
 	// Crée un champ input pour éditer le texte
 	const input = document.createElement('input');
 	input.type = 'number';
 	input.value = this.textContent; // Utilise `this` pour accéder à l'élément actuel
-
+	
 	// Remplace le contenu de l'élément par l'input
 	this.appendChild(input);
 	input.focus(); // Met le focus sur l'input pour l'édition immédiate
@@ -150,11 +141,12 @@ document.getElementById('dealer').addEventListener(
 		}
 		input.remove();
 	});
-
+	
 	// Option de sauvegarde du texte avec la touche "Enter"
 	input.addEventListener('keydown', (event) => {
 		if (event.key === 'Enter') {
 			input.blur(); // Déclenche l'événement blur pour sauvegarder
 		}
 	});
-});
+}
+document.getElementById('dealer').addEventListener('click', changerPetiteMise);

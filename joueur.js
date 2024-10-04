@@ -23,6 +23,8 @@ class Joueur {
         this.balise.addEventListener('click', this.supprimer.bind(this));
         cercle.appendChild(this.balise);
         positionJoueurs();
+
+        joueurs[this.balise.id] = this;
     }
 
     genererId() {
@@ -112,7 +114,7 @@ class Joueur {
             posRelativeDealer =
                 (((pos - positionDealer) % nbJoueurs) + nbJoueurs) % nbJoueurs;
             if ([1, 2].includes(posRelativeDealer)) {
-                addSolde(this.balise.id, -misePetiteBlinde * posRelativeDealer);
+                this.addSolde(-misePetiteBlinde * posRelativeDealer);
             }
             delete cagnotteParJoueur[this.balise.id];
             this.style.backgroundColor = 'grey';

@@ -1,5 +1,7 @@
 let nbJoueurs = 8;
 
+let joueurs = {};
+
 let cagnotteParJoueur = {}; // Dictionnaire pour savoir quelle part de la cagnote chaque joueur peut toucher
 
 let soldes = {};
