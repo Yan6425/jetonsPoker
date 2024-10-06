@@ -110,14 +110,14 @@ class Joueur {
 
     coucher() {
         if (modeCouchation) {
-            pos = Array.from(document.querySelectorAll('.joueur')).indexOf(this.balise);
-            posRelativeDealer =
+            let pos = Array.from(document.querySelectorAll('.joueur')).indexOf(this.balise);
+            let posRelativeDealer =
                 (((pos - positionDealer) % nbJoueurs) + nbJoueurs) % nbJoueurs;
             if ([1, 2].includes(posRelativeDealer)) {
                 this.addSolde(-misePetiteBlinde * posRelativeDealer);
             }
             delete cagnotteParJoueur[this.balise.id];
-            this.style.backgroundColor = 'grey';
+            this.balise.style.backgroundColor = 'grey';
         }
     }
 
