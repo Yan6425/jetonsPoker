@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="parametres.css" />
     <title>Jetons poker</title>
 </head>
 <body>
     <div id="table">
         <div id="cercle">
+            <button id="boutonParametres" onclick="ouvrirFenetre()"></button>
             <div id="centre">
                 <div id="cagnotte">cagnotte : 0</div>
                 <div id="mise">mise : 0</div>
@@ -23,12 +25,15 @@
             <button class="bouton" id="gagnant">Sélectionner gagnant</button>
             <button class="bouton" id="enleverJoueur">Enlever joueur</button>
         </div>
-        <!-- <div id="fenetreModifier" class="modal">
-            <div class="modal-content">
-                <span class="close-btn" onclick="fermerFenetre()">&times;</span>
-                
-            </div>
-        </div> -->
+    </div>
+    <div id="parametres" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="fermerFenetre()">&times;</span>
+            ajouter parametres
+            -nombre de joueurs
+            -chrono éventuellement
+            -réinitialisation
+        </div>
     </div>
     <footer>Site incroyable par Yan Hourdebaigt--Hiroux</footer>
     <script type="text/javascript" src="joueur.js"></script>
