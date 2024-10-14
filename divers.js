@@ -52,11 +52,11 @@ function resetModes() {
 }
 
 
-function nouvellePartie() {
+function initialiserMise() {
     initialiserCPJ();
     document.querySelectorAll('.joueur').forEach((joueur) => {
-            joueur.style.backgroundColor = 'orange';
-        });
+        joueur.style.backgroundColor = 'orange';
+    });
     positionDealer = (positionDealer + 1) % nbJoueurs;
     positionJoueurs();
     majMise(misePetiteBlinde * 2);
@@ -65,7 +65,7 @@ function nouvellePartie() {
 }
 
 
-function initialiserJeu() {
+function initialiserPartie() {
     for (let i = 0; i < nbJoueurs; i++) {
         new Joueur;
     }
@@ -76,22 +76,4 @@ function initialiserJeu() {
     premierTour = true;
     resetModes();
     positionJoueurs();
-}
-
-function fermerFenetre() {
-    Array.from(document.getElementsByClassName('modal')).forEach(element => {
-        element.style.display = 'none';
-    });
-}
-
-function ouvrirFenetre() {
-    Array.from(document.getElementsByClassName('modal')).forEach(element => {
-        element.style.display = 'block';
-    });
-}
-
-window.onclick = function(event) {
-    if (event.target.className == 'modal') {
-        fermerFenetre();
-    }
 }

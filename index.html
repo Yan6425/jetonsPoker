@@ -10,7 +10,7 @@
 <body>
     <div id="table">
         <div id="cercle">
-            <button id="boutonParametres" onclick="ouvrirFenetre()"></button>
+            <button id="boutonOuvrirParametres"></button>
             <div id="centre">
                 <div id="cagnotte">cagnotte : 0</div>
                 <div id="mise">mise : 0</div>
@@ -26,13 +26,18 @@
             <button class="bouton" id="enleverJoueur">Enlever joueur</button>
         </div>
     </div>
-    <div id="parametres" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="fermerFenetre()">&times;</span>
-            ajouter parametres
-            -nombre de joueurs
-            -chrono éventuellement
-            -réinitialisation
+    <div id="parametres">
+        <div id="contenuParametres">
+            <span id="boutonFermerParametres">&times;</span>
+            <form id="initialiserJeu">
+                <p>Nombre de joueurs</p>
+                <input type="number" name="nbJoueurs" min="0" max="10">
+                <p>Solde de départ</p>
+                <input type="number" name="soldeDepart" min="0">
+                <p>Petite blinde</p>
+                <input type="number" name="misePetiteBlinde" min ="0">
+                <button id="boutonNouvellePartie">Commencer une nouvelle partie</button>
+            </form>
         </div>
     </div>
     <footer>Site incroyable par Yan Hourdebaigt--Hiroux</footer>

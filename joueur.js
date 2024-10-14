@@ -18,9 +18,6 @@ class Joueur {
         this.solde.addEventListener('click', this.modifierSolde.bind(this));
         this.balise.appendChild(this.solde);
 
-        this.balise.addEventListener('click', this.coucher.bind(this));
-        this.balise.addEventListener('click', this.gagnant.bind(this));
-        this.balise.addEventListener('click', this.supprimer.bind(this));
         cercle.appendChild(this.balise);
         positionJoueurs();
 
@@ -39,7 +36,7 @@ class Joueur {
     }
 
     modifierNom() {
-        if (!modeSuppression && !modeCouchation && !modeGagnage) {
+        if (!modeCouchation && !modeGagnage & !modeSuppression){
             // Crée un champ input pour éditer le texte
             const input = document.createElement('input');
             input.type = 'text';
@@ -65,17 +62,17 @@ class Joueur {
     }
 
     modifierSolde() {
-        if (!modeSuppression && !modeCouchation && !modeGagnage) {
+        if (!modeCouchation && !modeGagnage & !modeSuppression){
             // Crée un champ input pour éditer le texte
             const input = document.createElement('input');
             input.type = 'number';
             input.value = this.solde.textContent; // Utilise `this` pour accéder à l'élément actuel
-    
+
             // Remplace le contenu de l'élément par l'input
             this.solde.textContent = '';
             this.solde.appendChild(input);
             input.focus(); // Met le focus sur l'input pour l'édition immédiate
-    
+
             // Gestion de la sauvegarde du texte
             input.addEventListener('blur', () => {
                 if (
@@ -88,7 +85,7 @@ class Joueur {
                     this.majSolde(Number(input.value));
                 }
             });
-    
+
             // Option de sauvegarde du texte avec la touche "Enter"
             input.addEventListener('keydown', (event) => {
                 if (event.key === 'Enter') {
@@ -109,47 +106,45 @@ class Joueur {
     }
 
     coucher() {
-        if (modeCouchation) {
-            let pos = Array.from(document.querySelectorAll('.joueur')).indexOf(this.balise);
-            let posRelativeDealer =
-                (((pos - positionDealer) % nbJoueurs) + nbJoueurs) % nbJoueurs;
-            if ([1, 2].includes(posRelativeDealer)) {
-                this.addSolde(-misePetiteBlinde * posRelativeDealer);
+        let pos = Array.from(document.querySelectorAll('.joueur')).indexOf(this.balise);
+        let posRelativeDealer = (((pos - positionDealer) % nbJoueurs) + nbJoueurs) % nbJoueurs;
+        delete cagnotteParJoueur[this.balise.id];
+        if ([1, 2].includes(posRelativeDealer)) {
+            const blinde = misePetiteBlinde * posRelativeDealer;
+            addCagnotte(blinde);
+            for (const id in cagnotteParJoueur) {
+                cagnotteParJoueur[id] += blinde;
             }
-            delete cagnotteParJoueur[this.balise.id];
-            this.balise.style.backgroundColor = 'grey';
+            this.addSolde(-blinde);
         }
+        this.balise.style.backgroundColor = 'grey';
     }
 
     gagnant() {
-        if (modeGagnage && this.balise.id in cagnotteParJoueur){
-            if (!premierTour) {
-                terminerTour();
-            }
-            const somme =
-                cagnotteParJoueur[this.balise.id] < cagnotte
-                    ? cagnotteParJoueur[this.balise.id]
-                    : cagnotte;
-            this.addSolde(somme);
-            addCagnotte(-somme);
-            if (cagnotte == 0) {
-                nouvellePartie();
-            }
+        if (!premierTour) {
+            terminerTour();
+        }
+        const somme =
+            cagnotteParJoueur[this.balise.id] < cagnotte
+                ? cagnotteParJoueur[this.balise.id]
+                : cagnotte;
+        this.addSolde(somme);
+        addCagnotte(-somme);
+        if (cagnotte == 0) {
+            initialiserMise();
         }
     }
 
     supprimer() {
-        if (modeSuppression) {
-            nbJoueurs = nbJoueurs - 1;
-            if (
-                positionDealer >
-                Array.from(document.querySelectorAll('.joueur')).indexOf(this.balise)
-            ) {
-                positionDealer = (positionDealer - 1) % nbJoueurs;
-            }
-            delete cagnotteParJoueur[this.balise.id];
-            this.balise.remove(); // Supprime l'élément cliqué
-            positionJoueurs();
+        nbJoueurs = nbJoueurs - 1;
+        if (
+            positionDealer >
+            Array.from(document.querySelectorAll('.joueur')).indexOf(this.balise)
+        ) {
+            positionDealer = (positionDealer - 1) % nbJoueurs;
         }
+        delete cagnotteParJoueur[this.balise.id];
+        this.balise.remove(); // Supprime l'élément cliqué
+        positionJoueurs();
     }
 }

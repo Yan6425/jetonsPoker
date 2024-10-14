@@ -1,29 +1,29 @@
-let nbJoueurs = 8;
+var nbJoueurs = 5;
 
-let joueurs = {};
+var joueurs = {};
 
-let cagnotteParJoueur = {}; // Dictionnaire pour savoir quelle part de la cagnote chaque joueur peut toucher
+var cagnotteParJoueur = {}; // Dictionnaire pour savoir quelle part de la cagnote chaque joueur peut toucher
 
-let soldes = {};
+var soldes = {};
 
-let soldeDepart = 500;
+var soldeDepart = 500;
 
-let cagnotte = 0;
+var cagnotte = 0;
 
-let mise = 0;
+var mise = 0;
 
-let misePetiteBlinde = 50;
+var misePetiteBlinde = 25;
 
-let positionDealer = 0;
+var positionDealer = 0;
 
-let premierTour = true;
+var premierTour = true;
 
-let modeSuppression = false; // Booléen pour suivre l'état du mode suppression
+var modeSuppression = false; // Booléen pour suivre l'état du mode suppression
 
-let modeCouchation = false; // Booléen pour suivre l'état du mode couchation
+var modeCouchation = false; // Booléen pour suivre l'état du mode couchation
 
-let modeGagnage = false; // Booléen pour suivre l'état du mode gagnage
+var modeGagnage = false; // Booléen pour suivre l'état du mode gagnage
 
-window.addEventListener('resize', positionJoueurs);
+window.addEventListener('resize', positionJoueurs, {passive : true});
 
-initialiserJeu();
+initialiserPartie();
