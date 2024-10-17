@@ -106,11 +106,11 @@ class Joueur {
     }
 
     coucher() {
-        let pos = Array.from(document.querySelectorAll('.joueur')).indexOf(this.balise);
-        let posRelativeDealer = (((pos - positionDealer) % nbJoueurs) + nbJoueurs) % nbJoueurs;
+        let position = Array.from(document.querySelectorAll('.joueur')).indexOf(this.balise);
+        let positionRelativeDealer = (((position - positionDealer) % nbJoueurs) + nbJoueurs) % nbJoueurs;
         delete cagnotteParJoueur[this.balise.id];
-        if ([1, 2].includes(posRelativeDealer)) {
-            const blinde = misePetiteBlinde * posRelativeDealer;
+        if ([1, 2].includes(positionRelativeDealer)) {
+            const blinde = misePetiteBlinde * positionRelativeDealer;
             addCagnotte(blinde);
             for (const id in cagnotteParJoueur) {
                 cagnotteParJoueur[id] += blinde;

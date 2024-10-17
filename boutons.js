@@ -205,10 +205,11 @@ function nouvellePartie() {
     for (id in joueurs) {
 		joueurs[id].supprimer();
 	}
-    document.querySelectorAll("#parametres form input").forEach(element => {
-        window[element.name] = element.value;
-    })
+	formulaire = new FormData(document.getElementById('initialiserJeu'));
+	for (let [nom, valeur] of formulaire.entries()) {
+        window[nom] = +valeur;
+    }
 	fermerParametres();
 	initialiserPartie();
 }
-document.getElementById('boutonNouvellePartie').addEventListener('click', nouvellePartie);
+document.getElementById('initialiserJeu').addEventListener('submit', nouvellePartie);
