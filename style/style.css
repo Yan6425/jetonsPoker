@@ -87,7 +87,7 @@ body {
 }
 
 #dealer {
-    background-image: url("dealer.png");
+    background-image: url("../source/dealer.png");
     background-size: cover;
     height: 25vw;
     width: 25vw;
