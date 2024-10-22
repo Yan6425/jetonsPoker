@@ -175,7 +175,7 @@ function changerPetiteMise() {
 		}
 	});
 }
-document.getElementById('dealer').addEventListener('click', changerPetiteMise);
+document.getElementById('boutonPetiteBlinde').addEventListener('click', changerPetiteMise);
 
 // -------------------- bouton fermer parametres ---------------------
 function fermerParametres() {

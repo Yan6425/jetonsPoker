@@ -1,6 +1,1 @@
-gérer les Small et big blinds qu'on puisse customs le montant (une big est toujours le double d'une Small)
-
-rajouter de l'argent a qqn manuellement
-
-revenir à l'action faites juste avant au cas où il y aurait une erreur
-
+gagnat couché et mise couché
