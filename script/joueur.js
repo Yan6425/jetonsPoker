@@ -73,28 +73,32 @@ class Joueur {
     coucher() {
         let position = Array.from(document.querySelectorAll('.joueur')).indexOf(this.balise);
         let positionRelativeDealer = (((position - positionDealer) % nbJoueurs) + nbJoueurs) % nbJoueurs;
-        if (premierTour && [1, 2].includes(positionRelativeDealer)) {
-            const blinde = misePetiteBlinde * positionRelativeDealer;
-            addCagnotte(blinde);
-            for (const id in cagnotteParJoueur) {
-                cagnotteParJoueur[id] += blinde;
-            }
-            this.addSolde(-blinde);
+        if ((!premierTour && mise) || (premierTour && (mise - misePetiteBlinde * 2))) {
+            this.miser(mise);
         }
+        else if (premierTour && [1, 2].includes(positionRelativeDealer)) {
+            this.miser(misePetiteBlinde * positionRelativeDealer);
+        }
+        this.perdreMise();
         this.couche = true;
         this.balise.style.backgroundColor = 'grey';
+    }
+
+    miser(somme) {
+        this.mise = (this.solde < somme) ? this.solde : somme;
+    }
+
+    perdreMise(){
+        this.addSolde(-this.mise);
+        addCagnotte(this.mise)
     }
 
     gagnant() {
         if (!premierTour) {
             terminerTour();
         }
-        const somme =
-            this.cagnotte < cagnotte
-                ? this.cagnotte
-                : cagnotte;
-        this.addSolde(somme);
-        addCagnotte(-somme);
+        this.addSolde(this.cagnotte);
+        addCagnotte(-this.cagnotte);
         if (cagnotte == 0) {
             initialiserMise();
         }

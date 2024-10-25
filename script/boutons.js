@@ -11,29 +11,22 @@ document
 
 // -------------------- bouton Terminer tour ---------------------
 function terminerTour() {
+	let joueursNonCouches = [];
 	premierTour = false;
-	const soldesJoueursAllin = {};
-	for (const idJoueur in cagnotteParJoueur) {
-		if (joueurs[idJoueur].solde < mise) {
-			soldesJoueursAllin[idJoueur] = joueurs[idJoueur].solde;
-			addCagnotte(joueurs[idJoueur].solde);
-		} else {
-			addCagnotte(mise);
+	for (const id in joueurs) {
+		if (!joueurs[id].couche){
+			joueursNonCouches.push(joueurs[id]);
+			joueurs[id].miser(mise);
+			joueurs[id].perdreMise();
 		}
 	}
-	for (const idJoueur in cagnotteParJoueur) {
-		const somme = joueurs[idJoueur].solde < mise ? joueurs[idJoueur].solde : mise;
-		for (const idJoueurAllin in soldesJoueursAllin) {
-			cagnotteParJoueur[idJoueur] +=
-				soldesJoueursAllin[idJoueurAllin] < somme
-					? soldesJoueursAllin[idJoueurAllin]
-					: somme;
-		}
-		cagnotteParJoueur[idJoueur] +=
-			somme *
-			(Object.keys(cagnotteParJoueur).length -
-				Object.keys(soldesJoueursAllin).length);
-		joueurs[idJoueur].addSolde(-somme);
+	joueursNonCouches.forEach(joueur1 => {
+		joueursNonCouches.forEach(joueur2 => {
+			joueur1.cagnotte += (joueur1.mise < joueur2.mise) ? joueur1.mise : joueur2.mise;
+		})
+	})
+	for (const id in joueurs){
+		joueurs[id].mise = 0;
 	}
 	majMise(0);
 }
@@ -84,13 +77,12 @@ function selectionnerGagnant() {
 	modeGagnage = !modeGagnage; // Inverse l'état du mode suppression
 	const button = document.getElementById('gagnant');
 	button.style.backgroundColor = modeGagnage ? 'red' : 'white';
-	document.querySelectorAll('.joueur').forEach(baliseJoueur => {
-		const joueur = joueurs[baliseJoueur.id];
+	Object.values(joueurs).forEach(joueur => {
 		if (modeGagnage) {
-			baliseJoueur.onclick = joueur.gagnant.bind(joueur);
+			joueur.balise.onclick = joueur.gagnant.bind(joueur);
 		}
 		else {
-			baliseJoueur.onclick = null;
+			joueur.balise.onclick = null;
 		}
 	})
 }

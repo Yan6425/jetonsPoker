@@ -72,9 +72,9 @@ function resetModes() {
 
 
 function initialiserMise() {
-    initialiserCPJ();
-    document.querySelectorAll('.joueur').forEach((joueur) => {
-        joueur.style.backgroundColor = 'orange';
+    Object.values(joueurs).forEach(joueur => {
+		joueur.cagnotte = 0;
+        joueur.balise.style.backgroundColor = 'orange';
     });
     positionDealer = (positionDealer + 1) % nbJoueurs;
     positionJoueurs();
