@@ -41,34 +41,16 @@ document.getElementById('tour').addEventListener('click', terminerTour);
 
 // -------------------- bouton Modifier mise ---------------------
 function modifierMise() {
-	// Crée un champ input pour éditer le texte
-	const input = document.createElement('input');
-	input.type = 'number';
-	const texteMise = document.getElementById('mise');
-
-	// Remplace le contenu de l'élément par l'input
-	texteMise.textContent = '';
-	texteMise.appendChild(input);
-	input.focus(); // Met le focus sur l'input pour l'édition immédiate
-
-	// Gestion de la sauvegarde du texte
-	input.addEventListener('blur', () => {
-		if (
-			!(
-				input.value == '' ||
-				Number(input.value) < 0 ||
-				!Number.isInteger(Number(input.value))
-			)
-		) {
-			majMise(Number(input.value));
+	modifierChamp(document.getElementById('mise'), mise, 'number', function (valeurEntree){
+		if (!valeurEntree == '') {
+			valeurEntree = Number(valeurEntree);
+			if (Number.isInteger(valeurEntree) && valeurEntree >= 0) {
+				majMise(
+					(premierTour && valeurEntree < (misePetiteBlinde * 2)) ? misePetiteBlinde * 2 : valeurEntree
+				);
+			}
 		}
-	});
-
-	// Option de sauvegarde du texte avec la touche "Enter"
-	input.addEventListener('keydown', (event) => {
-		if (event.key === 'Enter') {
-			input.blur(); // Déclenche l'événement blur pour sauvegarder
-		}
+		majMise(mise);
 	});
 }
 document.getElementById('miser').addEventListener('click', modifierMise);
@@ -139,43 +121,23 @@ document
 	.getElementById('enleverJoueur')
 	.addEventListener('click', enleverJoueur);
 
-// -------------------- bouton Dealer ---------------------
+// -------------------- bouton petite blinde ---------------------
 // Fonction pour changer la valeur de la petite blinde
-function changerPetiteMise() {
-	// Crée un champ input pour éditer le texte
-	const input = document.createElement('input');
-	input.type = 'number';
-	input.value = this.textContent; // Utilise `this` pour accéder à l'élément actuel
-	
-	// Remplace le contenu de l'élément par l'input
-	this.appendChild(input);
-	input.focus(); // Met le focus sur l'input pour l'édition immédiate
-
-	// Gestion de la sauvegarde du texte
-	input.addEventListener('blur', () => {
-		if (
-			!(
-				input.value == '' ||
-				Number(input.value) < 0 ||
-				!Number.isInteger(Number(input.value))
-			)
-		) {
-			misePetiteBlinde = Number(input.value);
-			if (premierTour) {
-				majMise(Number(input.value) * 2);
+function changerPetiteBlinde() {
+	modifierChamp(document.getElementById('boutonPetiteBlinde'), misePetiteBlinde, 'number', function (valeurEntree){
+		if (!valeurEntree == '') {
+			valeurEntree = Number(valeurEntree);
+			if (Number.isInteger(valeurEntree) && valeurEntree >= 0) {
+				misePetiteBlinde = valeurEntree;
+				if (premierTour) {
+					majMise(valeurEntree * 2);
+					return;
+				}
 			}
-		}
-		input.remove();
-	});
-	
-	// Option de sauvegarde du texte avec la touche "Enter"
-	input.addEventListener('keydown', (event) => {
-		if (event.key === 'Enter') {
-			input.blur(); // Déclenche l'événement blur pour sauvegarder
 		}
 	});
 }
-document.getElementById('boutonPetiteBlinde').addEventListener('click', changerPetiteMise);
+document.getElementById('boutonPetiteBlinde').addEventListener('click', changerPetiteBlinde);
 
 // -------------------- bouton fermer parametres ---------------------
 function fermerParametres() {

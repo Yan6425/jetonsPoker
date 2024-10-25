@@ -37,61 +37,23 @@ class Joueur {
 
     modifierNom() {
         if (!modeCouchation && !modeGagnage & !modeSuppression){
-            // Crée un champ input pour éditer le texte
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.value = this.nom.textContent; // Utilise `this` pour accéder à l'élément actuel
-    
-            // Remplace le contenu de l'élément par l'input
-            this.nom.textContent = '';
-            this.nom.appendChild(input);
-            input.focus(); // Met le focus sur l'input pour l'édition immédiate
-    
-            // Gestion de la sauvegarde du texte
-            input.addEventListener('blur', () => {
-                this.nom.textContent = input.value; // Utilise `this` pour l'élément actuel
-            });
-    
-            // Option de sauvegarde du texte avec la touche "Enter"
-            input.addEventListener('keydown', (event) => {
-                if (event.key === 'Enter') {
-                    input.blur(); // Déclenche l'événement blur pour sauvegarder
-                }
-            });
+            modifierChamp(this.nom, this.nom.textContent, 'text', function (valeurEntree){
+                this.nom.textContent = valeurEntree;
+            }.bind(this));
         }
     }
 
     modifierSolde() {
         if (!modeCouchation && !modeGagnage & !modeSuppression){
-            // Crée un champ input pour éditer le texte
-            const input = document.createElement('input');
-            input.type = 'number';
-            input.value = this.solde.textContent; // Utilise `this` pour accéder à l'élément actuel
-
-            // Remplace le contenu de l'élément par l'input
-            this.solde.textContent = '';
-            this.solde.appendChild(input);
-            input.focus(); // Met le focus sur l'input pour l'édition immédiate
-
-            // Gestion de la sauvegarde du texte
-            input.addEventListener('blur', () => {
-                if (
-                    input.value == '' ||
-                    Number(input.value) < 0 ||
-                    !Number.isInteger(Number(input.value))
-                ) {
-                    this.majSolde(0);
-                } else {
-                    this.majSolde(Number(input.value));
+            modifierChamp(this.solde, this.solde.textContent, 'number', function (valeurEntree){
+                if (valeurEntree != ''){
+                    valeurEntree = Number(valeurEntree);
+                    if (Number.isInteger(valeurEntree) && valeurEntree >= 0) {
+                        this.majSolde(valeurEntree);
+                    }
                 }
-            });
-
-            // Option de sauvegarde du texte avec la touche "Enter"
-            input.addEventListener('keydown', (event) => {
-                if (event.key === 'Enter') {
-                    input.blur(); // Déclenche l'événement blur pour sauvegarder
-                }
-            });
+                this.majSolde(soldes[this.balise.id]);
+            }.bind(this));
         }
     }
 

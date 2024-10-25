@@ -16,6 +16,32 @@ function positionJoueurs() {
 }
 
 
+function modifierChamp(balise, valeurDepart, type, fonction){
+	// Crée un champ input pour éditer le texte
+	const input = document.createElement('input');
+	input.type = type;
+	input.value = valeurDepart;
+
+	// Remplace le contenu de l'élément par l'input
+	balise.textContent = '';
+	balise.appendChild(input);
+	input.focus(); // Met le focus sur l'input pour l'édition immédiate
+
+	// Gestion de la sauvegarde du texte
+	input.addEventListener('blur', () => {
+		fonction(input.value);
+		input.remove();
+	});
+
+	// Option de sauvegarde du texte avec la touche "Enter"
+	input.addEventListener('keydown', (event) => {
+		if (event.key === 'Enter') {
+			input.blur(); // Déclenche l'événement blur pour sauvegarder
+		}
+	});
+}
+
+
 function majMise(somme) {
 	somme = Number(somme);
 	mise = somme;
