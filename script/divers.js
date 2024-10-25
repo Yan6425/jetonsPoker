@@ -61,13 +61,6 @@ function addCagnotte(somme) {
 }
 
 
-function initialiserCPJ() {
-	document.querySelectorAll('.joueur').forEach((joueur) => {
-		cagnotteParJoueur[joueur.id] = 0;
-	});
-}
-
-
 function resetModes() {
     modeCouchation = false;
 	modeGagnage = false;
@@ -95,7 +88,6 @@ function initialiserPartie() {
     for (let i = 0; i < nbJoueurs; i++) {
         new Joueur;
     }
-    initialiserCPJ();
     majCagnotte(0);
     majMise(misePetiteBlinde * 2);
     positionDealer = 0;

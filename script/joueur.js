@@ -3,20 +3,23 @@ class Joueur {
         const cercle = document.getElementById('cercle');
         this.balise = document.createElement('div');
         this.balise.className = 'joueur';
+        this.mise = 0;
+        this.solde = 0;
+        this.cagnotte = 0;
+        this.couche = false;
         this.genererId();
-        cagnotteParJoueur[this.balise.id] = 0;
 
-        this.nom = document.createElement('div');
-        this.nom.className = 'nom';
-        this.nom.textContent = 'Entrez un nom';
-        this.nom.addEventListener('click', this.modifierNom.bind(this));
-        this.balise.appendChild(this.nom);
+        this.baliseNom = document.createElement('div');
+        this.baliseNom.className = 'nom';
+        this.baliseNom.textContent = 'Entrez un nom';
+        this.baliseNom.addEventListener('click', this.modifierNom.bind(this));
+        this.balise.appendChild(this.baliseNom);
 
-        this.solde = document.createElement('div');
-        this.solde.className = 'solde';
+        this.baliseSolde = document.createElement('div');
+        this.baliseSolde.className = 'solde';
         this.majSolde(soldeDepart);
-        this.solde.addEventListener('click', this.modifierSolde.bind(this));
-        this.balise.appendChild(this.solde);
+        this.baliseSolde.addEventListener('click', this.modifierSolde.bind(this));
+        this.balise.appendChild(this.baliseSolde);
 
         cercle.appendChild(this.balise);
         positionJoueurs();
@@ -37,41 +40,40 @@ class Joueur {
 
     modifierNom() {
         if (!modeCouchation && !modeGagnage & !modeSuppression){
-            modifierChamp(this.nom, this.nom.textContent, 'text', function (valeurEntree){
-                this.nom.textContent = valeurEntree;
+            modifierChamp(this.baliseNom, this.baliseNom.textContent, 'text', function (valeurEntree){
+                this.baliseNom.textContent = valeurEntree;
             }.bind(this));
         }
     }
 
     modifierSolde() {
         if (!modeCouchation && !modeGagnage & !modeSuppression){
-            modifierChamp(this.solde, this.solde.textContent, 'number', function (valeurEntree){
+            modifierChamp(this.baliseSolde, this.solde, 'number', function (valeurEntree){
                 if (valeurEntree != ''){
                     valeurEntree = Number(valeurEntree);
                     if (Number.isInteger(valeurEntree) && valeurEntree >= 0) {
                         this.majSolde(valeurEntree);
                     }
                 }
-                this.majSolde(soldes[this.balise.id]);
+                this.majSolde(this.solde);
             }.bind(this));
         }
     }
 
     majSolde(somme) {
-        soldes[this.balise.id] = Number(somme);
-        this.solde.textContent = `${soldes[this.balise.id]}`;
+        this.solde = Number(somme);
+        this.baliseSolde.textContent = `${this.solde}`;
     }
 
     addSolde(somme) {
-        soldes[this.balise.id] += Number(somme);
-        this.solde.textContent = `${soldes[this.balise.id]}`;
+        this.solde += Number(somme);
+        this.baliseSolde.textContent = `${this.solde}`;
     }
 
     coucher() {
         let position = Array.from(document.querySelectorAll('.joueur')).indexOf(this.balise);
         let positionRelativeDealer = (((position - positionDealer) % nbJoueurs) + nbJoueurs) % nbJoueurs;
-        delete cagnotteParJoueur[this.balise.id];
-        if ([1, 2].includes(positionRelativeDealer)) {
+        if (premierTour && [1, 2].includes(positionRelativeDealer)) {
             const blinde = misePetiteBlinde * positionRelativeDealer;
             addCagnotte(blinde);
             for (const id in cagnotteParJoueur) {
@@ -79,6 +81,7 @@ class Joueur {
             }
             this.addSolde(-blinde);
         }
+        this.couche = true;
         this.balise.style.backgroundColor = 'grey';
     }
 
@@ -87,8 +90,8 @@ class Joueur {
             terminerTour();
         }
         const somme =
-            cagnotteParJoueur[this.balise.id] < cagnotte
-                ? cagnotteParJoueur[this.balise.id]
+            this.cagnotte < cagnotte
+                ? this.cagnotte
                 : cagnotte;
         this.addSolde(somme);
         addCagnotte(-somme);
@@ -105,7 +108,7 @@ class Joueur {
         ) {
             positionDealer = (positionDealer - 1) % nbJoueurs;
         }
-        delete cagnotteParJoueur[this.balise.id];
+        delete this.cagnotte;
         this.balise.remove(); // Supprime l'élément cliqué
         positionJoueurs();
     }

@@ -2,10 +2,6 @@ var nbJoueurs = 5;
 
 var joueurs = {};
 
-var cagnotteParJoueur = {}; // Dictionnaire pour savoir quelle part de la cagnote chaque joueur peut toucher
-
-var soldes = {};
-
 var soldeDepart = 500;
 
 var cagnotte = 0;

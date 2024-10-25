@@ -14,15 +14,15 @@ function terminerTour() {
 	premierTour = false;
 	const soldesJoueursAllin = {};
 	for (const idJoueur in cagnotteParJoueur) {
-		if (soldes[idJoueur] < mise) {
-			soldesJoueursAllin[idJoueur] = soldes[idJoueur];
-			addCagnotte(soldes[idJoueur]);
+		if (joueurs[idJoueur].solde < mise) {
+			soldesJoueursAllin[idJoueur] = joueurs[idJoueur].solde;
+			addCagnotte(joueurs[idJoueur].solde);
 		} else {
 			addCagnotte(mise);
 		}
 	}
 	for (const idJoueur in cagnotteParJoueur) {
-		const somme = soldes[idJoueur] < mise ? soldes[idJoueur] : mise;
+		const somme = joueurs[idJoueur].solde < mise ? joueurs[idJoueur].solde : mise;
 		for (const idJoueurAllin in soldesJoueursAllin) {
 			cagnotteParJoueur[idJoueur] +=
 				soldesJoueursAllin[idJoueurAllin] < somme
