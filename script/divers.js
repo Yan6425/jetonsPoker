@@ -15,6 +15,8 @@ function positionJoueurs() {
 	}deg) translate(${rayonDealer}) rotate(${-angle + 90}deg)`;
 }
 
+window.addEventListener('resize', positionJoueurs, {passive : true});
+
 
 function modifierChamp(balise, valeurDepart, type, fonction){
 	// Crée un champ input pour éditer le texte
@@ -71,7 +73,8 @@ function resetModes() {
 }
 
 window.onclick = function(event) {
-	if (!Object.keys(joueurs).includes(event.target.parentElement.id) && !['coucherJoueur', 'choisirGagnant', 'enleverJoueur'].includes(event.target.id)) {
+	if (!Object.keys(joueurs).includes(event.target.parentElement.id) && 
+		!['coucherJoueur', 'choisirGagnant', 'enleverJoueur'].includes(event.target.id)) {
 		resetModes();
 	}
 }

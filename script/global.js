@@ -20,6 +20,4 @@ var modeCouchation = false; // Booléen pour suivre l'état du mode couchation
 
 var modeGagnage = false; // Booléen pour suivre l'état du mode gagnage
 
-window.addEventListener('resize', positionJoueurs, {passive : true});
-
 initialiserPartie();
