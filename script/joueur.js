@@ -94,13 +94,15 @@ class Joueur {
     }
 
     gagnant() {
-        if (!premierTour) {
-            terminerTour();
-        }
-        this.addSolde(this.cagnotte);
-        addCagnotte(-this.cagnotte);
-        if (cagnotte == 0) {
-            initialiserMise();
+        if (!this.couche) {
+            if (!premierTour) {
+                terminerTour();
+            }
+            this.addSolde(this.cagnotte);
+            addCagnotte(-this.cagnotte);
+            if (cagnotte == 0) {
+                initialiserMise();
+            }
         }
     }
 

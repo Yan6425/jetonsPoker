@@ -11,20 +11,18 @@ document
 
 // -------------------- bouton Terminer tour ---------------------
 function terminerTour() {
-	let joueursNonCouches = [];
 	premierTour = false;
 	for (const id in joueurs) {
 		if (!joueurs[id].couche){
-			joueursNonCouches.push(joueurs[id]);
 			joueurs[id].miser(mise);
 			joueurs[id].perdreMise();
 		}
 	}
-	joueursNonCouches.forEach(joueur1 => {
-		joueursNonCouches.forEach(joueur2 => {
-			joueur1.cagnotte += (joueur1.mise < joueur2.mise) ? joueur1.mise : joueur2.mise;
-		})
-	})
+	for (const id1 in joueurs) {
+		for (const id2 in joueurs) {
+			joueurs[id1].cagnotte += (joueurs[id1].mise < joueurs[id2].mise) ? joueurs[id1].mise : joueurs[id2].mise;
+		}
+	}
 	for (const id in joueurs){
 		joueurs[id].mise = 0;
 	}
@@ -55,7 +53,7 @@ function coucherJoueur() {
 		resetModes();
 	}
 	modeCouchation = !modeCouchation; // Inverse l'état du mode couchation
-	document.getElementById('coucher').style.backgroundColor = modeCouchation ? 'red' : 'white';
+	document.getElementById('coucherJoueur').style.backgroundColor = modeCouchation ? 'red' : 'white';
 	document.querySelectorAll('.joueur').forEach(baliseJoueur => {
 		const joueur = joueurs[baliseJoueur.id];
 		if (modeCouchation) {
@@ -66,16 +64,16 @@ function coucherJoueur() {
 		}
 	})
 }
-document.getElementById('coucher').addEventListener('click', coucherJoueur);
+document.getElementById('coucherJoueur').addEventListener('click', coucherJoueur);
 
-// -------------------- bouton Sélectionner gagnant ---------------------
+// -------------------- bouton Choisir gagnant ---------------------
 // Fonction pour activer/désactiver le mode gagnage
 function selectionnerGagnant() {
 	if (!modeGagnage) {
 		resetModes();
 	}
 	modeGagnage = !modeGagnage; // Inverse l'état du mode suppression
-	const button = document.getElementById('gagnant');
+	const button = document.getElementById('choisirGagnant');
 	button.style.backgroundColor = modeGagnage ? 'red' : 'white';
 	Object.values(joueurs).forEach(joueur => {
 		if (modeGagnage) {
@@ -87,10 +85,10 @@ function selectionnerGagnant() {
 	})
 }
 document
-	.getElementById('gagnant')
+	.getElementById('choisirGagnant')
 	.addEventListener('click', selectionnerGagnant);
 
-// -------------------- bouton Supprimer joueur ---------------------
+// -------------------- bouton Enlever joueur ---------------------
 // Fonction pour activer/désactiver le mode suppression
 function enleverJoueur() {
 	if (!modeSuppression) {

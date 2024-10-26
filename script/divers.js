@@ -70,6 +70,12 @@ function resetModes() {
 	});
 }
 
+window.onclick = function(event) {
+	if (!Object.keys(joueurs).includes(event.target.parentElement.id) && !['coucherJoueur', 'choisirGagnant', 'enleverJoueur'].includes(event.target.id)) {
+		resetModes();
+	}
+}
+
 
 function initialiserMise() {
     Object.values(joueurs).forEach(joueur => {
