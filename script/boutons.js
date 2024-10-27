@@ -68,7 +68,7 @@ document.getElementById('coucherJoueur').addEventListener('click', coucherJoueur
 
 // -------------------- bouton Choisir gagnant ---------------------
 // Fonction pour activer/désactiver le mode gagnage
-function selectionnerGagnant() {
+function choisirGagnant() {
 	if (!modeGagnage) {
 		resetModes();
 	}
@@ -86,7 +86,7 @@ function selectionnerGagnant() {
 }
 document
 	.getElementById('choisirGagnant')
-	.addEventListener('click', selectionnerGagnant);
+	.addEventListener('click', choisirGagnant);
 
 // -------------------- bouton Enlever joueur ---------------------
 // Fonction pour activer/désactiver le mode suppression

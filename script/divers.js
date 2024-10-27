@@ -64,12 +64,9 @@ function addCagnotte(somme) {
 
 
 function resetModes() {
-    modeCouchation = false;
-	modeGagnage = false;
-	modeSuppression = false;
-	document.querySelectorAll('.bouton').forEach((bouton) => {
-        bouton.style.backgroundColor = 'white';
-	});
+    if (modeCouchation) {coucherJoueur()}
+	if (modeGagnage) {choisirGagnant()}
+	if (modeSuppression) {enleverJoueur()}
 }
 
 window.onclick = function(event) {
